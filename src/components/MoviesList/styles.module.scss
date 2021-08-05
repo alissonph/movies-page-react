@@ -1,0 +1,54 @@
+@import "../../styles/variables.scss";
+
+.container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+
+  margin-top: 3.2rem;
+
+  height: calc(100vh - 200px); //TODO: verificar calculo correto
+}
+
+.emptyState {
+  display: none; //TODO: flex;
+  flex-direction: column;
+  align-items: center;
+  color: $color-white;
+
+  .title {
+    font-size: 2.4rem;
+    font-weight: 600;
+
+    margin-top: 1.6rem;
+    margin-bottom: 0.8rem;
+  }
+
+  .subTitle {
+    color: $color-light-grey;
+  }
+}
+
+.movies {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 2rem;
+}
+
+.movie {
+  cursor: pointer;
+  position: relative;
+  width: 180px;
+  height: 240px;
+  //background-color: white !important;
+
+  img {
+    transition: 0.3s ease;
+  }
+
+  img:hover {
+    filter: brightness(40%);
+  }
+}

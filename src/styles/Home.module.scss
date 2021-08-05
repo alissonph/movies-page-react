@@ -1,0 +1,22 @@
+@import "./variables.scss";
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  font-size: 1.6rem;
+  background-color: $color-dark;
+  width: 100vw;
+  min-height: 100vh;
+  padding: 2.4rem;
+}
+
+.container {
+  width: 80vw;
+  max-width: 980px;
+}
+
+.main {
+  margin-top: 2.4rem;
+}
