@@ -1,11 +1,12 @@
 import { GetServerSideProps } from "next";
-import { useRouter } from "next/router";
 import { useEffect } from "react";
 
+import styles from "./styles.module.scss";
 import { api } from "../../utils/api";
+import { MovieDetails } from "../../types/Movie";
 
 type Props = {
-  movie: Object;
+  movie: MovieDetails;
 };
 
 type Params = {
@@ -13,14 +14,18 @@ type Params = {
 };
 
 export default function MovieDetail({ movie }: Props) {
-  const router = useRouter();
-  const { id } = router.query;
-
   useEffect(() => {
     console.log(movie);
   }, [movie]);
 
-  return <p>Post: {id}</p>;
+  return (
+    <div className={styles.container}>
+      <p>{movie.Title}</p>
+      <p>{movie.Year}</p>
+      <p>{movie.Language}</p>
+      <p>{movie.Country}</p>
+    </div>
+  );
 }
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
