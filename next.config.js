@@ -5,6 +5,6 @@ module.exports = {
     API_KEY: process.env.API_KEY,
   },
   images: {
-    domains: ['m.media-amazon.com'],
+    domains: ['m.media-amazon.com', 'via.placeholder.com'],
   },
 }
