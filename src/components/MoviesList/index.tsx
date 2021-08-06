@@ -13,12 +13,12 @@ export default function MoviesList() {
         <Image src="/loading.svg" alt="Loading image" width={120} height={30} />
       )}
 
-      {!isLoading && movies && (
+      {!isLoading && movies.length && (
         <div className={styles.movies}>
           {movies.map((movie, index) => {
             return (
               <Link
-                href={`/movie/${movie.imdbID}`}
+                href={`/movies/${movie.imdbID}`}
                 key={`${movie.imdbID}_${index}`}
                 passHref
               >
@@ -53,19 +53,22 @@ export default function MoviesList() {
           })}
         </div>
       )}
-      <div className={styles.emptyState}>
-        <Image
-          src="/illustration-empty-state.svg"
-          alt="Illustration when user doesn't search"
-          width={396}
-          height={193}
-        />
 
-        <span className={styles.title}>Dont know what to search?</span>
-        <span className={styles.subTitle}>
-          Here is an offer you cant refuse
-        </span>
-      </div>
+      {!isLoading && !movies.length && (
+        <div className={styles.emptyState}>
+          <Image
+            src="/illustration-empty-state.svg"
+            alt="Illustration when user doesn't search"
+            width={396}
+            height={193}
+          />
+
+          <span className={styles.title}>Don&apos;t know what to search?</span>
+          <span className={styles.subTitle}>
+            Here&apos;s an offer you can&apos;t refuse
+          </span>
+        </div>
+      )}
     </div>
   );
 }

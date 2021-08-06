@@ -3,7 +3,7 @@
 .container {
   display: flex;
   flex-direction: row;
-  align-items: flex-start; //TODO: verificar
+  align-items: flex-start;
   justify-content: center;
 
   margin-top: 3.2rem;
@@ -12,7 +12,7 @@
 }
 
 .emptyState {
-  display: none; //TODO: flex;
+  display: flex;
   flex-direction: column;
   align-items: center;
   color: $color-white;

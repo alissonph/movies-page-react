@@ -1,5 +1,8 @@
-import { GetServerSideProps } from "next";
 import { useEffect } from "react";
+import { GetStaticPaths, GetStaticProps } from "next";
+import { useRouter } from "next/router";
+import Head from "next/head";
+import Image from "next/image";
 
 import styles from "./styles.module.scss";
 import { api } from "../../utils/api";
@@ -14,12 +17,26 @@ type Params = {
 };
 
 export default function MovieDetail({ movie }: Props) {
+  const router = useRouter();
+
   useEffect(() => {
     console.log(movie);
   }, [movie]);
 
   return (
     <div className={styles.container}>
+      <Head>
+        <title>{movie.Title} | Movies</title>
+      </Head>
+
+      <Image
+        onClick={() => router.back()}
+        className={styles.buttonBack}
+        src="/icon_arrow.svg"
+        alt="Arrow to go back home"
+        width={24}
+        height={24}
+      />
       <p>{movie.Title}</p>
       <p>{movie.Year}</p>
       <p>{movie.Language}</p>
@@ -28,7 +45,14 @@ export default function MovieDetail({ movie }: Props) {
   );
 }
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
+export const getStaticPaths: GetStaticPaths = async () => {
+  return {
+    paths: [],
+    fallback: "blocking",
+  };
+};
+
+export const getStaticProps: GetStaticProps = async (context) => {
   const { id } = context.params as Params;
   const { data } = await api.get("/", { params: { i: id } });
 
@@ -36,5 +60,6 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     props: {
       movie: data,
     },
+    revalidate: 60 * 60 * 24, // 24 hours
   };
 };
