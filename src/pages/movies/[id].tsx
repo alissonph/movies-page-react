@@ -37,10 +37,88 @@ export default function MovieDetail({ movie }: Props) {
         width={24}
         height={24}
       />
-      <p>{movie.Title}</p>
-      <p>{movie.Year}</p>
-      <p>{movie.Language}</p>
-      <p>{movie.Country}</p>
+      <div className={styles.dataContainer}>
+        <div className={styles.data}>
+          <p className={styles.durationInfo}>
+            {movie.Runtime} - {movie.Year} - {movie.Rated}
+          </p>
+          <h1>{movie.Title}</h1>
+
+          <div className={styles.ratingContainer}>
+            <div className={styles.imdb}>
+              <div className={styles.title}>IMDb</div>
+              <div className={styles.text}>
+                <span>{movie.imdbRating}/10</span>
+              </div>
+            </div>
+
+            <div className={styles.score}>
+              <div className={styles.title}>
+                <Image
+                  src="/Rotten_Tomatoes_rotten.svg"
+                  alt="Score image"
+                  width={17}
+                  height={16}
+                />
+              </div>
+              <div className={styles.text}>
+                <span>{movie.Metascore}%</span>
+              </div>
+            </div>
+
+            <div className={styles.favorite}>
+              <Image
+                src="/icon_favorite_disable.svg"
+                alt="Favorite image"
+                width={16}
+                height={16}
+              />
+              <span>Add to favorites</span>
+            </div>
+          </div>
+
+          <div className={`${styles.box} ${styles.plot}`}>
+            <h5>Plot</h5>
+            <p>{movie.Plot}</p>
+          </div>
+
+          <div className={styles.adicionalInfoContainer}>
+            <div className={styles.box}>
+              <h5>Cast</h5>
+              {movie.Writer.split(",").map((item) => {
+                const title = item.trim();
+                return <span key={title}>{title}</span>;
+              })}
+            </div>
+            <div className={styles.box}>
+              <h5>Genre</h5>
+              {movie.Genre.split(",").map((item) => {
+                const title = item.trim();
+                return <span key={title}>{title}</span>;
+              })}
+            </div>
+            <div className={styles.box}>
+              <h5>Director</h5>
+              {movie.Director.split(",").map((item) => {
+                const title = item.trim();
+                return <span key={title}>{title}</span>;
+              })}
+            </div>
+          </div>
+        </div>
+        <div className={styles.cover}>
+          <Image
+            src={
+              movie.Poster != "N/A"
+                ? movie.Poster
+                : "https://via.placeholder.com/480x640"
+            }
+            alt="Cover image"
+            width={480}
+            height={640}
+          />
+        </div>
+      </div>
     </div>
   );
 }

@@ -47,6 +47,10 @@
     transition: 0.3s ease;
   }
 
+  .coverImage img {
+    border-radius: 5px;
+  }
+
   .favorite {
     display: none;
     position: absolute;
