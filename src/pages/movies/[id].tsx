@@ -5,7 +5,7 @@ import Head from "next/head";
 import Image from "next/image";
 
 import styles from "./styles.module.scss";
-import { api } from "../../utils/api";
+import { api } from "../../services/api";
 import { MovieDetails } from "../../types/Movie";
 
 type Props = {
@@ -48,7 +48,10 @@ export default function MovieDetail({ movie }: Props) {
             <div className={styles.imdb}>
               <div className={styles.title}>IMDb</div>
               <div className={styles.text}>
-                <span>{movie.imdbRating}/10</span>
+                <span>
+                  {movie.imdbRating}
+                  {movie.imdbRating != "N/A" && "/10"}
+                </span>
               </div>
             </div>
 
@@ -62,7 +65,10 @@ export default function MovieDetail({ movie }: Props) {
                 />
               </div>
               <div className={styles.text}>
-                <span>{movie.Metascore}%</span>
+                <span>
+                  {movie.Metascore}
+                  {movie.Metascore != "N/A" && "%"}
+                </span>
               </div>
             </div>
 

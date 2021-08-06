@@ -5,7 +5,7 @@ import { useMovies } from "../../contexts/MoviesContext";
 import styles from "./styles.module.scss";
 
 export default function MoviesList() {
-  const { movies, isLoading } = useMovies();
+  const { movies, isLoading, hasMore, loadMore } = useMovies();
 
   return (
     <div className={styles.container}>
@@ -13,7 +13,7 @@ export default function MoviesList() {
         <Image src="/loading.svg" alt="Loading image" width={120} height={30} />
       )}
 
-      {!isLoading && movies.length && (
+      {movies.length && (
         <div className={styles.movies}>
           {movies.map((movie, index) => {
             return (
@@ -52,6 +52,24 @@ export default function MoviesList() {
             );
           })}
         </div>
+      )}
+      {movies.length && hasMore && (
+        <button
+          type="button"
+          className={styles.buttonLoadMore}
+          onClick={loadMore}
+          disabled={isLoading}
+        >
+          {!isLoading && "Load More..."}
+          {isLoading && (
+            <Image
+              src="/loading.svg"
+              alt="Loading image"
+              width={60}
+              height={10}
+            />
+          )}
+        </button>
       )}
 
       {!isLoading && !movies.length && (
