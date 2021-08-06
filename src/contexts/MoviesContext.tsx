@@ -11,6 +11,8 @@ type MoviesContextData = {
   searchMovies: (text: string) => void;
   loadMore: () => void;
   clearMovies: () => void;
+  toggleFavorite: (id: string) => boolean;
+  isFavorite: (id: string) => boolean;
   movies: Movie[];
 };
 
@@ -19,6 +21,15 @@ type MoviesResponse = {
   Error?: string;
   Search: Movie[];
   totalResults: string;
+};
+
+type FavoriteItems = {
+  items: Item[];
+};
+
+type Item = {
+  id: string;
+  favorite: boolean;
 };
 
 export const MoviesContext = createContext({} as MoviesContextData);
@@ -45,6 +56,11 @@ export function MoviesContextProvider({
       .then(({ data }: { data: MoviesResponse }) => {
         if (data.Response == "True") {
           let newMovies = data.Search;
+
+          newMovies.forEach(
+            (item) => (item.favorite = isFavorite(item.imdbID))
+          );
+
           if (page === 1) {
             setMovies(newMovies);
           } else {
@@ -83,6 +99,52 @@ export function MoviesContextProvider({
     setHasMore(false);
   }
 
+  function getFavoriteItems() {
+    let favorites: FavoriteItems = { items: [] };
+    const favoritesSaved = localStorage.getItem("favorite_items");
+
+    if (favoritesSaved) {
+      favorites = JSON.parse(favoritesSaved);
+    }
+
+    return favorites;
+  }
+
+  function toggleFavorite(id: string) {
+    let favorite = false;
+    const favorites = getFavoriteItems();
+    const itemIndex = favorites.items.findIndex((item) => item.id === id);
+
+    if (itemIndex > -1) {
+      favorite = !favorites.items[itemIndex].favorite;
+
+      if (favorite) {
+        favorites.items[itemIndex].favorite = favorite;
+      } else {
+        favorites.items.splice(itemIndex, 1);
+      }
+    } else {
+      favorite = true;
+      const item = { id, favorite };
+      favorites.items.push(item);
+    }
+
+    localStorage.setItem("favorite_items", JSON.stringify(favorites));
+
+    return favorite;
+  }
+
+  function isFavorite(id: string) {
+    const favorites = getFavoriteItems();
+    const itemIndex = favorites.items.findIndex((item) => item.id === id);
+
+    if (itemIndex > -1) {
+      return favorites.items[itemIndex].favorite;
+    }
+
+    return false;
+  }
+
   return (
     <MoviesContext.Provider
       value={{
@@ -94,6 +156,8 @@ export function MoviesContextProvider({
         loadMore,
         movies,
         clearMovies,
+        toggleFavorite,
+        isFavorite,
       }}
     >
       {children}

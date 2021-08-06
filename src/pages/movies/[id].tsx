@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { GetStaticPaths, GetStaticProps } from "next";
 import { useRouter } from "next/router";
 import Head from "next/head";
@@ -7,21 +7,36 @@ import Image from "next/image";
 import styles from "./styles.module.scss";
 import { api } from "../../services/api";
 import { MovieDetails } from "../../types/Movie";
+import { useMovies } from "../../contexts/MoviesContext";
 
 type Props = {
-  movie: MovieDetails;
+  propMovie: MovieDetails;
 };
 
 type Params = {
   id: string;
 };
 
-export default function MovieDetail({ movie }: Props) {
+export default function MovieDetail({ propMovie }: Props) {
   const router = useRouter();
+  const [movie, setMovie] = useState(propMovie);
+  const { isFavorite, toggleFavorite } = useMovies();
 
   useEffect(() => {
-    console.log(movie);
-  }, [movie]);
+    const favorite = isFavorite(propMovie.imdbID);
+    console.log("propMovie", propMovie);
+
+    setMovie((old) => {
+      return { ...old, favorite };
+    });
+  }, [propMovie, isFavorite]);
+
+  function handleFavoriteClick() {
+    const favorite = toggleFavorite(propMovie.imdbID);
+    setMovie((old) => {
+      return { ...old, favorite };
+    });
+  }
 
   return (
     <div className={styles.container}>
@@ -40,7 +55,8 @@ export default function MovieDetail({ movie }: Props) {
       <div className={styles.dataContainer}>
         <div className={styles.data}>
           <p className={styles.durationInfo}>
-            {movie.Runtime} - {movie.Year} - {movie.Rated}
+            {movie.Runtime} - {movie.Year} -&nbsp;
+            <div className={styles.rated}>{movie.Rated}</div>
           </p>
           <h1>{movie.Title}</h1>
 
@@ -72,14 +88,24 @@ export default function MovieDetail({ movie }: Props) {
               </div>
             </div>
 
-            <div className={styles.favorite}>
+            <div
+              className={`${styles.favorite} ${
+                movie.favorite ? styles.filled : ""
+              }`}
+              onClick={handleFavoriteClick}
+            >
               <Image
-                src="/icon_favorite_disable.svg"
+                src={
+                  movie.favorite
+                    ? "/icon_heart_filled.svg"
+                    : "/icon_favorite_disable.svg"
+                }
                 alt="Favorite image"
                 width={16}
                 height={16}
               />
-              <span>Add to favorites</span>
+              <span className={styles.add}>Add to favorites</span>
+              <span className={styles.added}>Added</span>
             </div>
           </div>
 
@@ -138,11 +164,13 @@ export const getStaticPaths: GetStaticPaths = async () => {
 
 export const getStaticProps: GetStaticProps = async (context) => {
   const { id } = context.params as Params;
-  const { data } = await api.get("/", { params: { i: id } });
+  const { data }: { data: MovieDetails } = await api.get("/", {
+    params: { i: id },
+  });
 
   return {
     props: {
-      movie: data,
+      propMovie: data,
     },
     revalidate: 60 * 60 * 24, // 24 hours
   };

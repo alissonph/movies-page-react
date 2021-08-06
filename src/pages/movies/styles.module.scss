@@ -23,8 +23,19 @@
     flex: 1.2;
 
     .durationInfo {
+      display: flex;
+      flex-direction: row;
+
       margin-top: 3.2rem;
       color: $color-light-grey;
+
+      .rated {
+        color: $color-dark;
+        font-weight: 500;
+        background-color: $color-light-grey;
+        padding: 0.2rem;
+        border-radius: 5px;
+      }
     }
 
     h1 {
@@ -111,12 +122,12 @@
     border-top-left-radius: 5px;
     border-bottom-left-radius: 5px;
     background-color: $color-red;
-    padding: 1rem;
+    padding: 1rem 1.3rem;
   }
 
   .text {
     flex: 1;
-    padding: 1rem;
+    padding: 1rem 1.3rem;
     font-weight: 500;
     border: 1px solid $color-light-grey;
     border-left: 0;
@@ -132,9 +143,34 @@
   justify-content: center;
   gap: 1rem;
 
-  padding: 1rem;
+  cursor: pointer;
+  padding: 1rem 1.3rem;
   border: 1px solid $color-light-grey;
   border-radius: 5px;
   color: $color-light-grey;
   font-weight: 500;
+
+  transition: 0.3s ease;
+
+  .added {
+    display: none;
+  }
+
+  &.filled {
+    color: $color-white;
+    border: 1px solid $color-red;
+    background-color: $color-red;
+
+    .add {
+      display: none;
+    }
+
+    .added {
+      display: block;
+    }
+  }
+
+  &:hover {
+    transform: scale(1.1);
+  }
 }

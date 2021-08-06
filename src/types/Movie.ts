@@ -4,6 +4,7 @@ export type Movie = {
   imdbID: string;
   Type: string;
   Poster: string;
+  favorite?: boolean;
 };
 
 export type MovieDetails = {
@@ -32,6 +33,7 @@ export type MovieDetails = {
   Production: string;
   Website: string;
   Response: string;
+  favorite?: boolean;
 }
 
 type Rating = {
