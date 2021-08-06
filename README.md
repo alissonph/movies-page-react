@@ -16,6 +16,8 @@ O projeto está em inglês utilizando a API da OMDb (http://www.omdbapi.com).
 
 Hospedado na Vercel.
 
+Obs: Feito utilizando o desafio de front-end da Significa (https://github.com/Significa/frontend-challenge).
+
 ---
 
 ## 🚀 Tecnologias utilizadas
