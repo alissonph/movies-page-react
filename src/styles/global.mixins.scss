@@ -1,0 +1,17 @@
+$screen-xs: 375px;
+$screen-sm: 768px;
+$screen-md: 1000px; //960px;
+$screen-lg: 1416px; //1280px;
+$screen-xl: 1920px;
+
+@mixin responsiveMin($query) {
+  @media (min-width: + $query) {
+    @content;
+  }
+}
+
+@mixin responsiveMax($query) {
+  @media (max-width: + $query) {
+    @content;
+  }
+}
