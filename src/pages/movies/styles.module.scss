@@ -95,6 +95,7 @@
 .imdb {
   display: flex;
   flex-direction: row;
+  align-items: center;
 
   .title {
     flex: 1;
@@ -121,6 +122,7 @@
 .score {
   display: flex;
   flex-direction: row;
+  align-items: center;
 
   .title {
     flex: 1;
